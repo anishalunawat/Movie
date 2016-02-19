@@ -33,8 +33,14 @@ import java.util.Comparator;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class MovieHome extends AppCompatActivity {
+    private static final String API_URL = "http://api.themoviedb.org";
+    private static final String API_KEY = "d0b10df79db5f6477ad936b816414e60";
     ImageAdapter adapter;
     @Bind(R.id.movielistview)GridView gridview;
     ArrayList<GetMovieInfo> movies;
@@ -60,7 +66,10 @@ public class MovieHome extends AppCompatActivity {
                 startActivity(movieDetails);
             }
         });
+
+
     }
+
 
     @Override
     protected void onStart() {
@@ -77,9 +86,32 @@ public class MovieHome extends AppCompatActivity {
 
     public void updateMoviePoster()
     {
-        FetchMovie movie =new FetchMovie();
-        movie.execute("popularity");
+//        FetchMovie movie =new FetchMovie();
+//        movie.execute("popularity");
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(API_URL)
+                .build();
+
+        IApiMethods methods = restAdapter.create(IApiMethods.class);
+        Callback callback = new Callback() {
+            @Override
+            public void success(Object o, Response response) {
+                GetMovieInfo curators = (GetMovieInfo) o;
+                Log.e("RestPoint", String.valueOf(curators.backdrop_path));
+                adapter.notifyDataSetChanged();
+                // textView.setText(curators.title + "\n\n");
+                movies.add(curators);
+            }
+
+            @Override
+            public void failure(RetrofitError retrofitError) {
+
+            }
+        };
+        Log.e("Data", String.valueOf(movies));
+        methods.getMovieInfos(API_KEY, callback);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -228,7 +260,7 @@ public class MovieHome extends AppCompatActivity {
                 // Construct the URL for the OpenWeatherMap query
                 // Possible parameters are avaiable at OWM's forecast API page, at
                 // http://openweathermap.org/API#forecast
-                String api_key="api key";
+                String api_key = "d0b10df79db5f6477ad936b816414e60";
                 if (params[0] == "popularity") {
                     baseurl = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=" + api_key;
                 } else {
