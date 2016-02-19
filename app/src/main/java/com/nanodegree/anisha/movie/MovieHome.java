@@ -33,10 +33,6 @@ import java.util.Comparator;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit.Callback;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 public class MovieHome extends AppCompatActivity {
     private static final String API_URL = "http://api.themoviedb.org";
@@ -86,30 +82,8 @@ public class MovieHome extends AppCompatActivity {
 
     public void updateMoviePoster()
     {
-//        FetchMovie movie =new FetchMovie();
-//        movie.execute("popularity");
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(API_URL)
-                .build();
-
-        IApiMethods methods = restAdapter.create(IApiMethods.class);
-        Callback callback = new Callback() {
-            @Override
-            public void success(Object o, Response response) {
-                GetMovieInfo curators = (GetMovieInfo) o;
-                Log.e("RestPoint", String.valueOf(curators.backdrop_path));
-                adapter.notifyDataSetChanged();
-                // textView.setText(curators.title + "\n\n");
-                movies.add(curators);
-            }
-
-            @Override
-            public void failure(RetrofitError retrofitError) {
-
-            }
-        };
-        Log.e("Data", String.valueOf(movies));
-        methods.getMovieInfos(API_KEY, callback);
+        FetchMovie movie = new FetchMovie();
+        movie.execute("popularity");
     }
 
 
