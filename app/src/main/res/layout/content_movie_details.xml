@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    android:scrollbars="vertical">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/lightblue"
-        android:padding="8sp"
+        android:padding="4sp"
         android:text="Not Available"
         android:textColor="@color/white"
         android:textSize="40sp" />
@@ -33,39 +31,58 @@
 
                 <ImageView
                     android:id="@+id/thumbnail"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="8sp"
-                    android:layout_marginLeft="16sp"
-                    android:layout_marginRight="16sp"
-                    android:layout_marginTop="8sp" />
+                    android:layout_width="150sp"
+                    android:layout_height="200sp"
+                    android:layout_marginLeft="12sp"
+                    android:layout_marginRight="12sp"
+                    android:padding="4sp" />
 
                 <LinearLayout
 
                     android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:layout_height="match_parent"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/release_date"
-                        android:layout_gravity="center_horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
                         android:layout_margin="16sp"
                         android:text="Not Available"
                         android:textSize="30sp" />
 
                     <TextView
                         android:id="@+id/rating"
-                        android:layout_gravity="center_horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
                         android:layout_margin="16sp"
                         android:text="Not Available"
                         android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/favourite"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="onFavourite"
+                            android:text="FAVOURITE" />
+
+                        <Button
+                            android:id="@+id/review"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="onReview"
+                            android:text="REVIEW" />
+
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
@@ -75,6 +92,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8sp"
                 android:layout_marginRight="8sp" />
+
         </LinearLayout>
     </ScrollView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16sp"
+        android:layout_marginRight="8sp"
+        android:drawableBottom="@color/black"
+        android:text="Trailers:"
+        android:textColor="#000000"
+        android:textSize="25sp" />
+
+    <ListView
+        android:id="@+id/movielistview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

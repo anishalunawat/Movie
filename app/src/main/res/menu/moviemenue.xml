@@ -18,11 +18,15 @@
                 android:orderInCategory="2">
                 <item
                     android:id="@+id/Populaity"
-                    android:title="Popularity"
-                    android:checked="true"/>
+                    android:checked="true"
+                    android:title="Popularity" />
                 <item
                     android:id="@+id/Rating"
                     android:title="Rating" />
+
+                <item
+                    android:id="@+id/Favorite"
+                    android:title="Favorite" />
             </group>
         </menu>
     </item>
