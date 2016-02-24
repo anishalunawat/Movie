@@ -36,8 +36,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MovieHome extends AppCompatActivity {
-    private static final String API_URL = "http://api.themoviedb.org";
-    private static final String API_KEY = "d0b10df79db5f6477ad936b816414e60";
     ImageAdapter adapter;
     @Bind(R.id.movielistview)
     GridView gridview;
@@ -58,7 +56,7 @@ public class MovieHome extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Intent movieDetails = new Intent(getApplicationContext(), MovieDetails.class);
                 GetMovieInfo info = new GetMovieInfo(movies.get(position).getID(), movies.get(position).getTITLE(), movies.get(position).getPOSTER_PATH(), movies.get(position).getRELEASE_DATE(), movies.get(position).getOVERVIEW(), Double.toString(movies.get(position).getVOTEAVERAGE()) + "/10 (" + Integer.toString(movies.get(position).getVOTECOUNT()) + " )");
-                Log.e("ID: HOME", info.getID());
+                Log.e("Release",movies.get(position).getRELEASE_DATE());
                 movieDetails.putExtra("info", info);
                 startActivity(movieDetails);
             }
@@ -184,7 +182,6 @@ public class MovieHome extends AppCompatActivity {
             // These are the names of the JSON objects that need to be extracted.
             String ID = "id";
             String POSTER_PATH = "poster path";
-            String POSTER = "poster";
             String OVERVIEW = "overview";
             String RELEASE_DATE = "date";
             String TITLE = "title";
@@ -198,7 +195,6 @@ public class MovieHome extends AppCompatActivity {
             for (int i = 0; i < results.length(); i++) {
                 JSONObject dayForecast = results.getJSONObject(i);
                 POSTER_PATH = "http://image.tmdb.org/t/p/w342" + dayForecast.getString("poster_path");
-                POSTER = "http://image.tmdb.org/t/p/w154" + dayForecast.getString("poster_path");
                 POPULARITY = dayForecast.getDouble("popularity");
                 ID = dayForecast.getString("id");
                 OVERVIEW = dayForecast.getString("overview");
@@ -207,7 +203,7 @@ public class MovieHome extends AppCompatActivity {
                 RELEASE_DATE = dayForecast.getString("release_date");
                 TITLE = dayForecast.getString("title");
 
-                GetMovieInfo info = new GetMovieInfo(ID, POSTER_PATH, POSTER, OVERVIEW, RELEASE_DATE, TITLE, POPULARITY, VOTECOUNT, VOTEAVERAGE);
+                GetMovieInfo info = new GetMovieInfo(ID, POSTER_PATH, OVERVIEW, RELEASE_DATE, TITLE, POPULARITY, VOTECOUNT, VOTEAVERAGE);
                 movies.add(info);
             }
         }

@@ -21,7 +21,6 @@ public class GetMovieInfo implements Parcelable {
     };
     String ID = "id";
     String POSTER_PATH = "poster path";
-    String POSTER = "poster";
     String OVERVIEW = "overview";
     String RELEASE_DATE = "date";
     String TITLE = "title";
@@ -30,10 +29,9 @@ public class GetMovieInfo implements Parcelable {
     double VOTEAVERAGE = 0.0;
     String RATING = "rating";
 
-    public GetMovieInfo(String ID, String POSTER_PATH, String POSTER, String OVERVIEW, String RELEASE_DATE, String TITLE, double POPULARITY, int VOTECOUNT, double VOTEAVERAGE) {
+    public GetMovieInfo(String ID, String POSTER_PATH, String OVERVIEW, String RELEASE_DATE, String TITLE, double POPULARITY, int VOTECOUNT, double VOTEAVERAGE) {
         this.ID = ID;
         this.POSTER_PATH = POSTER_PATH;
-        this.POSTER = POSTER;
         this.OVERVIEW = OVERVIEW;
         this.RELEASE_DATE = RELEASE_DATE;
         this.TITLE = TITLE;
@@ -55,7 +53,7 @@ public class GetMovieInfo implements Parcelable {
         this.ID = in.readString();
         this.TITLE = in.readString();
         this.POSTER_PATH = in.readString();
-        this.POSTER = in.readString();
+        this.RELEASE_DATE=in.readString();
         this.OVERVIEW = in.readString();
         this.RATING = in.readString();
     }

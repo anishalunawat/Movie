@@ -4,5 +4,8 @@
     <string name="action_settings">Sort By</string>
     <string name="title_activity_movie_details">MovieDetails</string>
     <string name="action_sortby">Sort By</string>
+    <string name="title_activity_trailer">Trailer</string>
+
+    <string name="hello_world">Hello world!</string>
 
 </resources>

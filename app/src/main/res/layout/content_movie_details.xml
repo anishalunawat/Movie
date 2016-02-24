@@ -27,7 +27,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="4dp">
 
                 <ImageView
                     android:id="@+id/thumbnail"
@@ -91,23 +92,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8sp"
-                android:layout_marginRight="8sp" />
+                android:layout_marginRight="8sp"
+                android:padding="8dp"/>
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="viewTrailer"
+                android:background="#ff9b35"
+                android:textColor="@color/white"
+                android:layout_margin="8dp"
+                android:textSize="24dp"
+                android:text="TRAILERS"/>
         </LinearLayout>
     </ScrollView>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16sp"
-        android:layout_marginRight="8sp"
-        android:drawableBottom="@color/black"
-        android:text="Trailers:"
-        android:textColor="#000000"
-        android:textSize="25sp" />
-
-    <ListView
-        android:id="@+id/movielistview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 </LinearLayout>
