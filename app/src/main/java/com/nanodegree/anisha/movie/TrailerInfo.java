@@ -1,10 +1,7 @@
 package com.nanodegree.anisha.movie;
 
-import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
-import android.widget.ListView;
 
 /**
  * Created by anisha on 20/2/16.
@@ -14,16 +11,9 @@ public class TrailerInfo implements Parcelable {
     String key = "key";
 
     public TrailerInfo(String name, String key) {
-        Log.e("name",name);
         this.name = name;
         this.key = key;
     }
-
-    @Override
-    public String toString() {
-        return name + ": " + key;
-    }
-
 
     private TrailerInfo(Parcel in) {
         name = in.readString();
@@ -40,10 +30,6 @@ public class TrailerInfo implements Parcelable {
 
     public String getKey() {
         return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
     }
 
     @Override

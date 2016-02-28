@@ -19,79 +19,79 @@ public class GetMovieInfo implements Parcelable {
             return new GetMovieInfo[size];
         }
     };
-    String ID = "id";
-    String POSTER_PATH = "poster path";
-    String OVERVIEW = "overview";
-    String RELEASE_DATE = "date";
-    String TITLE = "title";
-    double POPULARITY = 0.0;
-    int VOTECOUNT = 0;
-    double VOTEAVERAGE = 0.0;
-    String RATING = "rating";
+    String id = "id";
+    String poster_path = "poster path";
+    String overview = "overview";
+    String release_date = "date";
+    String title = "title";
+    double popularity = 0.0;
+    int vote_count = 0;
+    double vote_average = 0.0;
+    String rating = "rating";
 
-    public GetMovieInfo(String ID, String POSTER_PATH, String OVERVIEW, String RELEASE_DATE, String TITLE, double POPULARITY, int VOTECOUNT, double VOTEAVERAGE) {
-        this.ID = ID;
-        this.POSTER_PATH = POSTER_PATH;
-        this.OVERVIEW = OVERVIEW;
-        this.RELEASE_DATE = RELEASE_DATE;
-        this.TITLE = TITLE;
-        this.POPULARITY = POPULARITY;
-        this.VOTECOUNT = VOTECOUNT;
-        this.VOTEAVERAGE = VOTEAVERAGE;
+    public GetMovieInfo(String id, String poster_path, String overview, String release_date, String title, double popularity, int vote_count, double vote_average) {
+        this.id = id;
+        this.poster_path = poster_path;
+        this.overview = overview;
+        this.release_date = release_date;
+        this.title = title;
+        this.popularity = popularity;
+        this.vote_count = vote_count;
+        this.vote_average = vote_average;
     }
 
-    public GetMovieInfo(String ID, String TITLE, String POSTER_PATH, String RELEASE_DATE, String OVERVIEW, String RATING) {
-        this.ID = ID;
-        this.POSTER_PATH = POSTER_PATH;
-        this.OVERVIEW = OVERVIEW;
-        this.RELEASE_DATE = RELEASE_DATE;
-        this.TITLE = TITLE;
-        this.RATING = RATING;
+    public GetMovieInfo(String id, String title, String poster_path, String release_date, String overview, String rating) {
+        this.id = id;
+        this.poster_path = poster_path;
+        this.overview = overview;
+        this.release_date = release_date;
+        this.title = title;
+        this.rating = rating;
     }
 
     private GetMovieInfo(Parcel in) {
-        this.ID = in.readString();
-        this.TITLE = in.readString();
-        this.POSTER_PATH = in.readString();
-        this.RELEASE_DATE=in.readString();
-        this.OVERVIEW = in.readString();
-        this.RATING = in.readString();
+        this.id = in.readString();
+        this.title = in.readString();
+        this.poster_path = in.readString();
+        this.release_date=in.readString();
+        this.overview = in.readString();
+        this.rating = in.readString();
     }
 
     public String getRATING() {
-        return RATING;
+        return rating;
     }
 
     public String getID() {
-        return ID;
+        return id;
     }
 
     public String getPOSTER_PATH() {
-        return POSTER_PATH;
+        return poster_path;
     }
 
     public String getOVERVIEW() {
-        return OVERVIEW;
+        return overview;
     }
 
     public String getRELEASE_DATE() {
-        return RELEASE_DATE;
+        return release_date;
     }
 
     public String getTITLE() {
-        return TITLE;
+        return title;
     }
 
     public double getPOPULARITY() {
-        return POPULARITY;
+        return popularity;
     }
 
     public int getVOTECOUNT() {
-        return VOTECOUNT;
+        return vote_count;
     }
 
     public double getVOTEAVERAGE() {
-        return VOTEAVERAGE;
+        return vote_average;
     }
 
     @Override
@@ -101,12 +101,12 @@ public class GetMovieInfo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(ID);
-        dest.writeString(TITLE);
-        dest.writeString(POSTER_PATH);
-        dest.writeString(RELEASE_DATE);
-        dest.writeString(OVERVIEW);
-        dest.writeString(RATING);
+        dest.writeString(id);
+        dest.writeString(title);
+        dest.writeString(poster_path);
+        dest.writeString(release_date);
+        dest.writeString(overview);
+        dest.writeString(rating);
     }
 
 }

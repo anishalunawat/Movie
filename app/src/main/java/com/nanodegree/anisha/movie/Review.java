@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,6 +22,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class Review extends ListActivity {
@@ -40,6 +46,7 @@ public class Review extends ListActivity {
         reviewView = getListView();
     }
 
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -49,115 +56,39 @@ public class Review extends ListActivity {
     }
 
     void updateReview() {
-        FetchReview fetchReview = new FetchReview();
-        fetchReview.execute(id);
-    }
+        KeyAndUrls auth = new KeyAndUrls();
+        if (!auth.isConnected()) {
+            Toast.makeText(getBaseContext(), "Please Connect to Internet!", Toast.LENGTH_LONG).show();
+        } else {
 
-    public class FetchReview extends AsyncTask<String, Void, Void> {
-
-        private final String LOG_TAG = FetchReview.class.getSimpleName();
-
-        private void getReviewDataFromJson(String movieJsonStr)
-                throws JSONException {
-            String author;
-            String content;
-            JSONObject reviewJson = new JSONObject(movieJsonStr);
-            JSONArray results = reviewJson.getJSONArray("results");
-            review.clear();
-            for (int i = 0; i < results.length(); i++) {
-                JSONObject userReview = results.getJSONObject(i);
-                author = userReview.getString("author");
-                content = userReview.getString("content");
-
-                HashMap<String, String> info = new HashMap<>();
-                info.put(AUTHOR, author);
-                info.put(CONTENT, content);
-
-                review.add(info);
-            }
-
-        }
-
-        @Override
-        protected Void doInBackground(String... params) {
-            // These two need to be declared outside the try/catch
-            // so that they can be closed in the finally block.
-            HttpURLConnection urlConnection = null;
-            BufferedReader reader = null;
-
-            // Will contain the raw JSON response as a string.
-            String movieJsonStr = null;
-
-            try {
-
-                String baseurl;
-                // Construct the URL for the OpenWeatherMap query
-                // Possible parameters are avaiable at OWM's forecast API page, at
-                // http://openweathermap.org/API#forecast
-                String api_key = "d0b10df79db5f6477ad936b816414e60";
-                baseurl = "http://api.themoviedb.org/3/movie/" + params[0] + "/reviews?api_key=" + api_key;
-                URL url = new URL(baseurl);
-
-                // Create the request to OpenWeatherMap, and open the connection
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
-                urlConnection.connect();
-
-                // Read the input stream into a String
-                InputStream inputStream = urlConnection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
-                if (inputStream == null) {
-                    // Nothing to do.
-                    return null;
-                }
-                reader = new BufferedReader(new InputStreamReader(inputStream));
-
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
-                    // But it does make debugging a *lot* easier if you print out the completed
-                    // buffer for debugging.
-                    buffer.append(line + "\n");
-                }
-
-                if (buffer.length() == 0) {
-                    // Stream was empty.  No point in parsing.
-                    return null;
-                }
-                movieJsonStr = buffer.toString();
-            } catch (IOException e) {
-                Log.e(LOG_TAG, "Error ", e);
-                // If the code didn't successfully get the weather data, there's no point in attemping
-                // to parse it.
-                return null;
-            } finally {
-                if (urlConnection != null) {
-                    urlConnection.disconnect();
-                }
-                if (reader != null) {
-                    try {
-                        reader.close();
-                    } catch (final IOException e) {
-                        Log.e(LOG_TAG, "Error closing stream", e);
+            RestAdapter restAdapter = new RestAdapter.Builder()
+                    .setEndpoint(auth.getBaseurl())
+                    .setLogLevel(RestAdapter.LogLevel.FULL)//log your request
+                    .build();
+            final GetReviewRetro getReviewInterface = restAdapter.create(GetReviewRetro.class);
+            getReviewInterface.getReview(id, auth.getApi_key(), new Callback<ReviewData>() {
+                @Override
+                public void success(ReviewData getReviews, Response response) {
+                    for (int i = 0; i < getReviews.results.size(); i++) {
+                        HashMap<String, String> singleReview = new HashMap<>();
+                        singleReview.put(AUTHOR, getReviews.results.get(i).author);
+                        singleReview.put(CONTENT, getReviews.results.get(i).content);
+                        review.add(singleReview);
                     }
+                    adapter = new SimpleAdapter(
+                            Review.this, review,
+                            R.layout.review_list_item, new String[]{AUTHOR, CONTENT}, new int[]{R.id.author,
+                            R.id.content});
+                    setListAdapter(adapter);
                 }
-            }
-            try {
-                getReviewDataFromJson(movieJsonStr);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
 
-        @Override
-        protected void onPostExecute(Void avoid) {
-            super.onPostExecute(avoid);
-            adapter = new SimpleAdapter(
-                    Review.this, review,
-                    R.layout.review_list_item, new String[]{AUTHOR, CONTENT}, new int[]{R.id.author,
-                    R.id.content});
-            setListAdapter(adapter);
+                @Override
+                public void failure(RetrofitError arg0) {
+                    Toast.makeText(Review.this, "Retrofit Error!", Toast.LENGTH_LONG).show();
+                    Log.e("result", arg0 + "");
+                }
+            });
+
         }
     }
 }
